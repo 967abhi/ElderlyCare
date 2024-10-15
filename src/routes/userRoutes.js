@@ -64,5 +64,13 @@ userRoutes.get("/alluser", userAuth, async (req, res) => {
     res.status(400).send({ message: "Error encountered", err });
   }
 });
-
+userRoutes.post("/searchuser", userAuth, async (req, res) => {
+  try {
+    const { email } = req.body;
+    const data = await User.find({ email }); // Await the data
+    res.status(200).send({ message: "User data retrieved", users: data });
+  } catch (err) {
+    res.status(400).send({ message: "Error encountered", err });
+  }
+});
 module.exports = userRoutes;
