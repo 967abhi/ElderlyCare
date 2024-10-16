@@ -5,6 +5,7 @@ const port = 3000;
 const cors = require("cors");
 const userRoutes = require("./src/routes/userRoutes");
 const cookieParser = require("cookie-parser");
+const caretakerRouter = require("./src/routes/caretakerRoutes");
 // const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -18,6 +19,7 @@ app.get("/from", (req, res) => {
 });
 
 app.use("/", userRoutes);
+app.use("/", caretakerRouter);
 
 database
   .then(() => {
