@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const caretakerSchema = new Schema(
+const caretakerSchema = new mongoose.Schema(
   {
     firstname: {
       type: String,
@@ -26,9 +26,13 @@ const caretakerSchema = new Schema(
       type: Number,
       required: true,
     },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   { Timestamp: true }
 );
 
 const Caretaker = mongoose.model("Caretaker", caretakerSchema);
-module.exports = caretaker;
+module.exports = Caretaker;
