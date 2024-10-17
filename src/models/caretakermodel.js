@@ -30,8 +30,22 @@ const caretakerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    pincode: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["accepted", "rejected", "completed"],
+
+      default: "completed",
+    },
+    description: {
+      type: String,
+      required: true,
+    },
   },
-  { Timestamp: true }
+  { timestamp: true }
 );
 
 const Caretaker = mongoose.model("Caretaker", caretakerSchema);

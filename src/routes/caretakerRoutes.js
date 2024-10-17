@@ -12,8 +12,17 @@ caretakerRouter.get("/caretaker", (req, res) => {
 });
 caretakerRouter.post("/signupcaretaker", async (req, res) => {
   try {
-    const { firstname, lastname, age, email, address, phonenumber, password } =
-      req.body;
+    const {
+      firstname,
+      lastname,
+      age,
+      email,
+      address,
+      phonenumber,
+      password,
+      pincode,
+      status,
+    } = req.body;
     // const userpassword=req.body.password
 
     //hashed the password
@@ -26,9 +35,11 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
       address,
       phonenumber,
       password: hashpassword,
+      pincode,
+      status,
     });
     const data = await caretakerdata.save();
-    res.status(200).send({ message: "Signup Successfully" });
+    res.status(200).send({ message: "Signup Successfully", data });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -88,4 +99,59 @@ caretakerRouter.delete(
     }
   }
 );
+caretakerRouter.patch(
+  "/caretakerupdate/:id",
+  caretakerAuth,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { password, age, phonenumber } = req.body;
+      let updatefields = {};
+      if (password) {
+        const hashpassword = await bcrypt.hash(password, 10);
+        updatefields.password = hashpassword;
+      }
+      if (age) updatefields.age = age;
+      if (phonenumber) updatefields.phonenumber = phonenumber;
+      const updatecaretaker = await Caretaker.findByIdAndUpdate(
+        id,
+        updatefields,
+        { new: true }
+      );
+      if (!updatecaretaker) {
+        res.status(400).send({ message: "caretake not found" });
+      }
+      res
+        .status(200)
+        .send({ message: "updated successfully", updatecaretaker });
+    } catch (err) {
+      res
+        .status(200)
+        .send({ message: "error from the update of the care taker ", err });
+    }
+  }
+);
+//update the status
+caretakerRouter.put("/update-status/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    if (!["accepted", "rejected", "completed"].includes(status)) {
+      return res.status(400).send({ message: "Invalid status" });
+    }
+    const updatestatus = await Caretaker.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+    if (!updatestatus) {
+      return res.status(400).send({ message: "caretaker not found" });
+    }
+    res
+      .status(200)
+      .send({ message: "status updated successfully", updatestatus });
+  } catch (err) {
+    res.status(400).send({ message: "err found on the status update" });
+  }
+});
 module.exports = caretakerRouter;
