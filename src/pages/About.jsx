@@ -30,7 +30,10 @@ const About = () => {
       delectus cum mollitia qui dolore neque quidem voluptatem optio
       voluptatibus, iste quis exercitationem beatae odio! Voluptatem, tenetur
       eius? Unde eius velit magni eos earum sed, explicabo perspiciatis at enim
-      illo quidem molestias ratione beatae sunt minus nisi sint?
+      illo quidem molestias ratione beatae sunt minus nisi sint? Lorem, ipsum
+      dolor sit amet consectetur adipisicing elit. Tenetur incidunt animi cumque
+      ullam sit rem, consequuntur aut, soluta dolores necessitatibus, cum quo
+      dolorem asperiores dolorum?
     </h1>
   );
 };
