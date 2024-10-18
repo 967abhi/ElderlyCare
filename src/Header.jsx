@@ -35,11 +35,60 @@ const Header = () => {
           </div>
 
           {/* Primary Nav for desktop */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* <div className="hidden md:flex items-center space-x-1 ">
+            <ul className="flex flex-row gap-20 justify-center text-center">
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                Home
+              </li>
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                About
+              </li>
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                Contact
+              </li>
+            </ul>
             <div className="relative">
               <button
                 onClick={toggleDropdown}
                 className="  font-medium text-[24px]  hover:text-gray-900 focus:outline-none w-32 h-10 bg-[#0c376f] text-white font-Poppins text-xl rounded-md"
+              >
+                Sign up
+              </button>
+             
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-Poppins"
+                  >
+                    Sign up as <br /> User
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100 font-Poppins"
+                  >
+                    Sign up as Caretaker
+                  </a>
+                </div>
+              )}
+            </div>
+          </div> */}
+          <div className="hidden md:flex items-center space-x-1">
+            <ul className="flex flex-row gap-20 justify-center text-center pr-20">
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                Home
+              </li>
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                About
+              </li>
+              <li className="text-black font-medium text-[16px] font-Poppins hover:text-gray-900 focus:outline-none">
+                Contact
+              </li>
+            </ul>
+            <div className="relative">
+              <button
+                onClick={toggleDropdown}
+                className="font-medium text-[24px] hover:text-gray-900 focus:outline-none w-32 h-10 bg-[#0c376f] text-white font-Poppins text-xl rounded-md"
               >
                 Sign up
               </button>

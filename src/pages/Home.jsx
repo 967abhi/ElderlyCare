@@ -85,7 +85,7 @@ const Home = () => {
             </div>
           </div>
           {/* adding affordable section  */}
-          <div className="flex flex-row justify-between bg-[#ffff] w-full h-20">
+          <div className="flex flex-row justify-between bg-[#ffff] w-full h-20 mt-8">
             <div className="flex flex-row  justify-center text-center gap-2 ">
               <div className="flex flex-col justify-center ">
                 <svg
