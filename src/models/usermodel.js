@@ -35,8 +35,20 @@ const userschema = new mongoose.Schema(
       required: true,
     },
     pincode: {
-      type: String,
+      type: Number,
       required: true,
+    },
+    currentAddress: {
+      type: String,
+      default: "",
+    },
+    city: {
+      type: String,
+      default: "",
+    },
+    currentpincode: {
+      type: Number,
+      default: "",
     },
   },
   { timestamps: true }

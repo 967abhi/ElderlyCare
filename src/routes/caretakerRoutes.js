@@ -24,7 +24,14 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
       status,
     } = req.body;
     // const userpassword=req.body.password
-
+    const checkemail = await Caretaker.findOne({
+      $or: [{ email }, { phonenumber }],
+    });
+    if (checkemail) {
+      return res.status(400).send({
+        message: "The email and phonenumber is already registered",
+      });
+    }
     //hashed the password
     const hashpassword = await bcrypt.hash(password, 10);
     const caretakerdata = new Caretaker({
@@ -38,6 +45,7 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
       pincode,
       status,
     });
+
     const data = await caretakerdata.save();
     res.status(200).send({ message: "Signup Successfully", data });
   } catch (err) {
@@ -70,7 +78,7 @@ caretakerRouter.get("/logoutcaretaker", async (req, res) => {
 
   res.status(200).send({ message: "Logged out successfully" });
 });
-caretakerRouter.get("/allcaretakeruser", caretakerAuth, async (req, res) => {
+caretakerRouter.get("/allcaretakeruser", userAuth, async (req, res) => {
   try {
     const user = await Caretaker.find();
     res.status(200).send({ message: "fetched the data", user });

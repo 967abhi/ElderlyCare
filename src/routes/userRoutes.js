@@ -13,8 +13,27 @@ const JWT_SECRET = "ABHISHEK";
 // Register User
 userRoutes.post("/user", async (req, res) => {
   try {
-    const { firstname, lastname, age, phonenumber, email, gender, password } =
-      req.body;
+    const {
+      firstname,
+      lastname,
+      age,
+      phonenumber,
+      email,
+      gender,
+      password,
+      address,
+      pincode,
+    } = req.body;
+    //validate that whether the email or phonumber is already register or not
+    const validatemailandphonenumber = await User.findOne({
+      $or: [{ email }, { phonenumber }],
+    });
+    if (validatemailandphonenumber) {
+      return res
+        .status(400)
+        .send({ message: "Email and phonenumber are already register" });
+    }
+
     // Hash the password
     const passwordhashed = await bcrypt.hash(password, 10);
     const data = new User({
@@ -25,6 +44,8 @@ userRoutes.post("/user", async (req, res) => {
       email,
       gender,
       password: passwordhashed,
+      address,
+      pincode,
     });
     await data.save();
     res.status(200).send({ message: "Data saved successfully" });
@@ -48,7 +69,7 @@ userRoutes.post("/userlogin", async (req, res) => {
     }
     // Generate token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "9h",
     });
     // Set token in cookies
     res.cookie("token", token);
@@ -78,7 +99,7 @@ userRoutes.post("/searchuser", userAuth, async (req, res) => {
   }
 });
 //search by the pincode in the caretaker and then show
-userRoutes.post("/enterthepincode", async (req, res) => {
+userRoutes.post("/enterthepincode", userAuth, async (req, res) => {
   try {
     const { pincode } = req.body;
     const data = await Caretaker.find({
