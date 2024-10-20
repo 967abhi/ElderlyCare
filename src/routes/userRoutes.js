@@ -142,27 +142,5 @@ userRoutes.post("/add-review/:id", async (req, res) => {
 });
 
 userRoutes.get("/getallthecaretaker", getAllCaretakers);
-userRoutes.get("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).send({ message: "user not found" });
-    }
-    const isvalidpassword = bcrypt.compare(password, user.password);
-    if (!isvalidpassword) {
-      return res.status(400).send({ message: "password is not corrent " });
-    }
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "2h",
-    });
-    if (!token) {
-      return res.status(400).send({ message: "token is not created" });
-    }
-    res.cookie("token", token);
-    res.status(200).send({ message: "Login successfully" });
-  } catch (err) {
-    res.status(400).send({ message: "Error found", err });
-  }
-});
+
 module.exports = userRoutes;
