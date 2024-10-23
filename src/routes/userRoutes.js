@@ -117,6 +117,16 @@ userRoutes.post("/enterthepincode", userAuth, async (req, res) => {
     res.status(400).send({ message: "Error found", err });
   }
 });
+userRoutes.get("/caretaker/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const caretaker = await Caretaker.findById(id);
+    res.status(200).send({ message: "fetched data successfully", caretaker });
+  } catch (err) {
+    res.status(400).send({ message: "User not found", err });
+  }
+});
+
 userRoutes.post("/add-review/:id", async (req, res) => {
   try {
     const { id } = req.params;
