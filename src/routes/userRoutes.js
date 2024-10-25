@@ -104,7 +104,7 @@ userRoutes.post("/enterthepincode", userAuth, async (req, res) => {
     const { pincode } = req.body;
     const data = await Caretaker.find({
       pincode,
-      status: { $in: ["rejected", "completed"] },
+      // status: { $in: ["rejected", "completed"] },
     });
     if (!data) {
       return res.status(400).send({
