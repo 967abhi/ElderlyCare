@@ -3,35 +3,35 @@ const mongoose = require("mongoose");
 const caretakerSchema = new mongoose.Schema({
   firstname: {
     type: String,
-    required: true,
+    // required: true,
   },
   lastname: {
     type: String,
-    required: true,
+    // required: true,
   },
   age: {
     type: String,
-    required: true,
+    // required: true,
   },
   email: {
     type: String,
-    required: true,
+    // required: true,
   },
   address: {
     type: String,
-    required: true,
+    // required: true,
   },
   phonenumber: {
     type: Number,
-    required: true,
+    // required: true,
   },
   password: {
     type: String,
-    required: true,
+    // required: true,
   },
   pincode: {
     type: Number,
-    required: true,
+    // required: true,
   },
   status: {
     type: String,
@@ -47,6 +47,50 @@ const caretakerSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+  },
+  userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  userfirstname: {
+    type: [String],
+    required: true,
+  },
+  userlastname: {
+    type: [String],
+    required: true,
+  },
+  useremail: {
+    type: [String],
+    required: true,
+  },
+  userphonenumber: {
+    type: [Number],
+    required: true,
+  },
+  userpincode: {
+    type: [Number],
+    required: true,
+  },
+  usercurrentaddress: {
+    type: [String],
+    required: true,
+  },
+  userstartingtime: {
+    type: [Date],
+    // required: true,
+  },
+  userendingtime: {
+    type: [Date],
+    // required: true,
+  },
+  userduration: {
+    type: [String],
+    required: true,
+  },
+  userprice: {
+    type: [String],
+    required: true,
   },
 });
 

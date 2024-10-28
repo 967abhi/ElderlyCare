@@ -6,7 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./src/routes/userRoutes");
 const cookieParser = require("cookie-parser");
 const caretakerRouter = require("./src/routes/caretakerRoutes");
-const bookingRouter = require("./src/routes/bookingRoutes");
+// const bookingRouter = require("./src/routes/bookingRoutes");
 // const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -22,7 +22,7 @@ app.get("/from", (req, res) => {
 app.use("/", userRoutes);
 app.use("/", caretakerRouter);
 // app.use("/",b)
-app.use("/", bookingRouter);
+// app.use("/", bookingRouter);
 
 database
   .then(() => {

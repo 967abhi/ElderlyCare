@@ -139,7 +139,7 @@ caretakerRouter.patch(
     }
   }
 );
-//update the status
+//update the statususerduration
 caretakerRouter.put("/update-status/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -162,4 +162,86 @@ caretakerRouter.put("/update-status/:id", async (req, res) => {
     res.status(400).send({ message: "err found on the status update" });
   }
 });
+// caretakerRouter.post("/bookingform/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const {
+//       userfirstname,
+//       userlastname,
+//       useremail,
+//       userphonenumber,
+//       userpincode,
+//       usercurrentaddress,
+//       userstartingtime,
+//       userendingtime,
+//       userduration,
+//       userprice,
+//     } = req.body;
+//     const data = new Caretaker({
+//       userid: id,
+//       userfirstname,
+//       userlastname,
+//       useremail,
+//       userphonenumber,
+//       userpincode,
+//       usercurrentaddress,
+//       userstartingtime,
+//       userendingtime,
+//       userduration,
+//       userprice,
+//     });
+//     const result = await data.save();
+//     res.status(200).send({ message: "Data Successfully", result });
+//   } catch (err) {
+//     res.status(400).send({ message: "error found", err });
+//   }
+// });
+
+caretakerRouter.post("/update/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      userfirstname,
+      userlastname,
+      useremail,
+      userphonenumber,
+      userpincode,
+      usercurrentaddress,
+      userstartingtime,
+      userendingtime,
+      userduration,
+      userprice,
+    } = req.body;
+
+    const updatedData = await Caretaker.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          userfirstname,
+          userlastname,
+          useremail,
+          userphonenumber,
+          userpincode,
+          usercurrentaddress,
+          userstartingtime,
+          userendingtime,
+          userduration,
+          userprice,
+        },
+      },
+      { new: true } // This returns the updated document
+    );
+
+    if (!updatedData) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .send({ message: "User data updated successfully", updatedData });
+  } catch (err) {
+    res.status(400).send({ message: "Error updating data", err });
+  }
+});
+
 module.exports = caretakerRouter;
