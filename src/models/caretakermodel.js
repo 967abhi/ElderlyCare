@@ -50,31 +50,31 @@ const caretakerSchema = new mongoose.Schema({
   },
   userid: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    // required: true,
   },
   userfirstname: {
     type: [String],
-    required: true,
+    // required: true,
   },
   userlastname: {
     type: [String],
-    required: true,
+    // required: true,
   },
   useremail: {
     type: [String],
-    required: true,
+    // required: true,
   },
   userphonenumber: {
     type: [Number],
-    required: true,
+    // required: true,
   },
   userpincode: {
     type: [Number],
-    required: true,
+    // required: true,
   },
   usercurrentaddress: {
     type: [String],
-    required: true,
+    // required: true,
   },
   userstartingtime: {
     type: [Date],
@@ -86,11 +86,11 @@ const caretakerSchema = new mongoose.Schema({
   },
   userduration: {
     type: [String],
-    required: true,
+    // required: true,
   },
   userprice: {
     type: [String],
-    required: true,
+    // required: true,
   },
 });
 
