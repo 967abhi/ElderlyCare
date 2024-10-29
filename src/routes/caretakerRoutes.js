@@ -52,6 +52,27 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
     res.status(400).send(err);
   }
 });
+// caretakerRouter.post("/logincaretaker", async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await Caretaker.findOne({ email });
+//     if (!user) {
+//       return res.status(400).send({ message: "User not found" });
+//     }
+//     const ispasswordvalid = await bcrypt.compare(password, user.password);
+//     if (!ispasswordvalid) {
+//       return res.status(400).send({ message: "password is not correct" });
+//     }
+//     const token = jwt.sign({ userID: user._id }, JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     res.cookie("token", token);
+//     res.status(200).send({ message: "Login successfully", token });
+//   } catch (err) {
+//     res.status(400).send({ message: "Error from login", err });
+//   }
+// });
 caretakerRouter.post("/logincaretaker", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -59,18 +80,19 @@ caretakerRouter.post("/logincaretaker", async (req, res) => {
     if (!user) {
       return res.status(400).send({ message: "User not found" });
     }
-    const ispasswordvalid = await bcrypt.compare(password, user.password);
-    if (!ispasswordvalid) {
-      return res.status(400).send({ message: "password is not correct" });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).send({ message: "Password is incorrect" });
     }
-    const token = jwt.sign({ userID: user._id }, JWT_SECRET, {
+    // Sign the JWT with user ID
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: "1h",
     });
 
     res.cookie("token", token);
     res.status(200).send({ message: "Login successfully", token });
   } catch (err) {
-    res.status(400).send({ message: "Error from login", err });
+    res.status(400).send({ message: "Error during login", err });
   }
 });
 caretakerRouter.get("/logoutcaretaker", async (req, res) => {
@@ -241,6 +263,29 @@ caretakerRouter.post("/update/:id", async (req, res) => {
       .send({ message: "User data updated successfully", updatedData });
   } catch (err) {
     res.status(400).send({ message: "Error updating data", err });
+  }
+});
+caretakerRouter.get("/find/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await Caretaker.findById(id);
+    res.status(200).send({ message: "user find successfully", data });
+  } catch (err) {
+    res.status(400).send({ message: "Error Found ", err });
+  }
+});
+caretakerRouter.get("/me", caretakerAuth, async (req, res) => {
+  try {
+    const user = await Caretaker.findById(req.user.userId).select(
+      "firstName lastName age email address phoneNumber pincode status createdAt usercurrentaddress userduration useremail userfirstname userlastname userphonenumber userpincode userprice userendingtime userstartingtime "
+    );
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.send({ user });
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving user data", error });
   }
 });
 
