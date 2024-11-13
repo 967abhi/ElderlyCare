@@ -277,7 +277,7 @@ caretakerRouter.get("/find/:id", async (req, res) => {
 caretakerRouter.get("/me", caretakerAuth, async (req, res) => {
   try {
     const user = await Caretaker.findById(req.user.userId).select(
-      "firstName lastName age email address phoneNumber pincode status createdAt usercurrentaddress userduration useremail userfirstname userlastname userphonenumber userpincode userprice userendingtime userstartingtime "
+      "imageUrl firstname lastname age email address phonenumber pincode status createdAt usercurrentaddress userduration useremail userfirstname userlastname userphonenumber userpincode userprice userendingtime userstartingtime "
     );
     if (!user) {
       return res.status(404).send({ message: "User not found" });

@@ -39,11 +39,11 @@ const caretakerSchema = new mongoose.Schema({
 
     default: "completed",
   },
-  // description: {
-  //   type: String,
-  //   maxlength: 200,
-  //   required: true,
-  // },
+  description: {
+    type: String,
+    maxlength: 200,
+    // required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

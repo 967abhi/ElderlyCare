@@ -126,6 +126,15 @@ userRoutes.get("/caretaker/:id", async (req, res) => {
     res.status(400).send({ message: "User not found", err });
   }
 });
+userRoutes.get("/ordernow/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Caretaker.findById(id);
+    res.status(200).send({ message: "Data found ", user });
+  } catch (err) {
+    res.status(400).send({ message: "Error found " });
+  }
+});
 
 userRoutes.post("/add-review/:id", async (req, res) => {
   try {
