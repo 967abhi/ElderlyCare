@@ -39,6 +39,12 @@ const caretakerSchema = new mongoose.Schema({
 
     default: "completed",
   },
+  caretakerrequeststatus: {
+    type: [String],
+    enum: ["accepted", "rejected", "pending"],
+
+    default: "pending",
+  },
   description: {
     type: String,
     maxlength: 200,

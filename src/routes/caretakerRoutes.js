@@ -288,5 +288,32 @@ caretakerRouter.get("/me", caretakerAuth, async (req, res) => {
     res.status(500).send({ message: "Error retrieving user data", error });
   }
 });
+caretakerRouter.put("/caretakerstatus", async (req, res) => {
+  try {
+    const id = req.headers["_id"];
+    const { currentstatus } = req.body;
+    if (!id) {
+      return res.status(400).send({ message: "Id is required in the headers" });
+    }
+    if (!["accepted", "rejected", "pending"].includes(currentstatus)) {
+      return res.status(400).send({ message: "Invalid status" });
+    }
+    const updatedRequest = await CaretakerRequest.findByIdAndUpdate(
+      id,
+      { caretakerrequeststatus: currentstatus },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedRequest) {
+      return res.status(404).json({ error: "Caretaker request not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Status updated successfully", updatedRequest });
+  } catch (err) {
+    res.status(400).send({ message: "error found", err });
+  }
+});
 
 module.exports = caretakerRouter;
