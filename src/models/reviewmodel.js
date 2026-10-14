@@ -10,6 +10,13 @@ const revieSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  // set for reviews created through /api/v1/bookings/:id/review (one per booking)
+  bookingId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Booking",
+    unique: true,
+    sparse: true,
+  },
   rating: {
     type: Number,
     min: 0,
@@ -23,7 +30,7 @@ const revieSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 const Review = mongoose.model("Review", revieSchema);

@@ -1,4 +1,12 @@
 const mongoose = require("mongoose");
+const familyContactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  relation: { type: String },
+  email: { type: String, lowercase: true, trim: true },
+  phone: { type: String },
+  notify: { type: Boolean, default: true },
+});
+
 const userschema = new mongoose.Schema(
   {
     firstname: {
@@ -20,6 +28,9 @@ const userschema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
     gender: {
       type: String,
@@ -29,6 +40,7 @@ const userschema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     address: {
       type: String,
@@ -48,11 +60,12 @@ const userschema = new mongoose.Schema(
     },
     currentpincode: {
       type: Number,
-      default: "",
     },
     description: {
       type: String,
     },
+    // people who get booking updates (accepted / rejected / completed / cancelled)
+    familyContacts: [familyContactSchema],
   },
   { timestamps: true }
 );

@@ -1,0 +1,20 @@
+{
+  "name": "elderlycare-notifications",
+  "version": "1.0.0",
+  "description": "Cloud Functions that send booking notifications from Pub/Sub events",
+  "main": "index.js",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start:caretaker": "functions-framework --target=notifyCaretaker --signature-type=cloudevent --port=8081",
+    "start:family": "functions-framework --target=notifyFamily --signature-type=cloudevent --port=8082"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.5",
+    "dotenv": "^18.0.7",
+    "mongodb": "^7.7.0",
+    "nodemailer": "^10.1.0"
+  }
+}

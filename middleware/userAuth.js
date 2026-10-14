@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "ABHISHEK"; // Keep this secret secure
+const JWT_SECRET = process.env.USER_JWT_SECRET;
 
 const userAuth = (req, res, next) => {
   // const token = req.cookies.token; // Access the token from cookies

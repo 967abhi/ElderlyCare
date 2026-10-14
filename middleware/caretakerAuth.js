@@ -40,7 +40,7 @@
 
 // middleware/caretakerAuth.js
 const jwt = require("jsonwebtoken");
-const JWT_SECRET = "abhishek";
+const JWT_SECRET = process.env.CARETAKER_JWT_SECRET;
 
 const caretakerAuth = (req, res, next) => {
   const authHeader = req.header("Authorization");

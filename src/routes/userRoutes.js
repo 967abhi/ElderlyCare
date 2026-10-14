@@ -8,7 +8,7 @@ const Caretaker = require("../models/caretakermodel");
 const { getAllCaretakers } = require("../controllers/userController");
 const Review = require("../models/reviewmodel");
 
-const JWT_SECRET = "ABHISHEK";
+const JWT_SECRET = process.env.USER_JWT_SECRET;
 
 // Register User
 userRoutes.post("/user", async (req, res) => {
@@ -59,7 +59,7 @@ userRoutes.post("/user", async (req, res) => {
 userRoutes.post("/userlogin", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(400).send({ message: "User not found" });
     }

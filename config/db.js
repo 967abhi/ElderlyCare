@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
-const database = mongoose.connect(
-  "mongodb+srv://Elderly:Elderlycare123@cluster0.qfmya.mongodb.net/"
-  // process.env.db_name
-);
 
-module.exports = database;
+const connectDB = (uri = process.env.MONGO_URI) => {
+  if (!uri) {
+    throw new Error("MONGO_URI is not set");
+  }
+  return mongoose.connect(uri);
+};
+
+module.exports = connectDB;
