@@ -1,36 +1,36 @@
-const express = require("express");
-const database = require("./config/db");
-const app = express();
-const port = 3000;
-const cors = require("cors");
-const userRoutes = require("./src/routes/userRoutes");
-const cookieParser = require("cookie-parser");
-const caretakerRouter = require("./src/routes/caretakerRoutes");
-// const bookingRouter = require("./src/routes/bookingRoutes");
-// const dotenv = require("dotenv");
+// Load .env before anything reads process.env
 require("dotenv").config();
 
-app.use(express.json());
-app.use(cors());
-app.use(cookieParser());
-// app.use(dotenv);
+const logger = require("./config/logger");
+const connectDB = require("./config/db");
+const app = require("./src/app");
+const { startOutboxWorker } = require("./src/events/outbox");
 
-app.get("/from", (req, res) => {
-  res.send("Hello from the api");
-});
+// Cloud Run sets PORT (8080). Locally it comes from .env or defaults to 3000.
+const port = process.env.PORT || 3000;
 
-app.use("/", userRoutes);
-app.use("/", caretakerRouter);
-// app.use("/",b)
-// app.use("/", bookingRouter);
+const required = ["MONGO_URI", "JWT_SECRET"];
+const missing = required.filter((key) => !process.env[key]);
+if (missing.length) {
+  logger.error("missing required environment variables", { missing });
+  process.exit(1);
+}
 
-database
+connectDB()
   .then(() => {
-    console.log("database is connected");
-    app.listen(port, () => {
-      console.log(`server is running on the ${port}`);
+    logger.info("database is connected");
+    const server = app.listen(port, () => {
+      logger.info(`server is running on the ${port}`, { port });
+    });
+    startOutboxWorker();
+
+    // Cloud Run sends SIGTERM before stopping an instance
+    process.on("SIGTERM", () => {
+      logger.info("SIGTERM received, shutting down");
+      server.close(() => process.exit(0));
     });
   })
   .catch((err) => {
-    console.log("server is not connected", err);
+    logger.error("server is not connected", { err });
+    process.exit(1);
   });

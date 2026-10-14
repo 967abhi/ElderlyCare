@@ -6,7 +6,7 @@ const caretakerAuth = require("../../middleware/caretakerAuth");
 const userAuth = require("../../middleware/userAuth");
 const caretakerRouter = express();
 // const cookie
-const JWT_SECRET = "abhishek";
+const JWT_SECRET = process.env.CARETAKER_JWT_SECRET;
 caretakerRouter.get("/caretaker", (req, res) => {
   res.send("hi from the care taker");
 });
@@ -55,7 +55,7 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
 // caretakerRouter.post("/logincaretaker", async (req, res) => {
 //   try {
 //     const { email, password } = req.body;
-//     const user = await Caretaker.findOne({ email });
+//     const user = await Caretaker.findOne({ email }).select("+password");
 //     if (!user) {
 //       return res.status(400).send({ message: "User not found" });
 //     }
@@ -76,7 +76,7 @@ caretakerRouter.post("/signupcaretaker", async (req, res) => {
 caretakerRouter.post("/logincaretaker", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await Caretaker.findOne({ email });
+    const user = await Caretaker.findOne({ email }).select("+password");
     if (!user) {
       return res.status(400).send({ message: "User not found" });
     }

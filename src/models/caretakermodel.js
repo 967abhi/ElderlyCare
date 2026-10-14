@@ -15,7 +15,10 @@ const caretakerSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    // required: true,
+    unique: true,
+    sparse: true,
+    lowercase: true,
+    trim: true,
   },
   address: {
     type: String,
@@ -27,12 +30,54 @@ const caretakerSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // required: true,
+    select: false,
   },
   pincode: {
     type: Number,
     // required: true,
   },
+  description: {
+    type: String,
+    maxlength: 200,
+    // required: true,
+  },
+  // price per hour; bookings copy this value when they are created
+  hourlyRate: {
+    type: Number,
+    min: 0,
+  },
+  skills: {
+    type: [String],
+    default: [],
+  },
+  experienceYears: {
+    type: Number,
+    min: 0,
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  avgRating: {
+    type: Number,
+    default: 0,
+  },
+  reviewCount: {
+    type: Number,
+    default: 0,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  // ---- Legacy fields: still used by the old routes in caretakerRoutes.js.
+  // Bookings now live in the Booking collection; remove these once the
+  // frontend uses /api/v1/bookings.
   status: {
     type: String,
     enum: ["accepted", "rejected", "completed"],
@@ -44,15 +89,6 @@ const caretakerSchema = new mongoose.Schema({
     enum: ["accepted", "rejected", "pending"],
 
     default: "pending",
-  },
-  description: {
-    type: String,
-    maxlength: 200,
-    // required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
   },
   userid: {
     type: mongoose.Schema.Types.ObjectId,
@@ -99,6 +135,10 @@ const caretakerSchema = new mongoose.Schema({
     // required: true,
   },
 });
+
+// fields returned by the /api/v1 endpoints (hides password and legacy booking arrays)
+caretakerSchema.statics.PUBLIC_FIELDS =
+  "firstname lastname age email address phonenumber pincode description hourlyRate skills experienceYears isAvailable isVerified avgRating reviewCount createdAt";
 
 const Caretaker = mongoose.model("Caretaker", caretakerSchema);
 module.exports = Caretaker;
